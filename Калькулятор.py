@@ -62,5 +62,5 @@ for row in range(4):
     for col in range(4):
         Button(root, width=2, height=3, text=buttons[row][col],
                command=lambda row=row, col=col: btn_click(buttons[row][col])).grid(row=row + 2, column=col, sticky="nsew", padx=1, pady=1)
-
+ 
 root.mainloop()
