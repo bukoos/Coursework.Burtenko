@@ -6,7 +6,6 @@ def btn_click(item):
     try:
         input_field['state'] = "normal"
         
-        # Видалення попереднього результату, якщо попередній символ був "="
         if expression and expression[-1] == '=':
             expression = expression[:-1]
         
