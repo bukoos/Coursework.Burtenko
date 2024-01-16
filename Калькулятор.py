@@ -6,9 +6,9 @@ def btn_click(item):
     try:
         input_field['state'] = "normal"
         
-        # Очищення рядка, якщо попередній символ був "="
+        # Видалення попереднього результату, якщо попередній символ був "="
         if expression and expression[-1] == '=':
-            bt_clear()
+            expression = expression[:-1]
         
         expression += item
         input_field.delete(0, END)
@@ -16,8 +16,9 @@ def btn_click(item):
 
         if item == '=':
             result = str(eval(expression[:-1]))
+            input_field.delete(0, END)
             input_field.insert(END, result)
-            expression = ""
+            expression = result + "="
 
         input_field['state'] = "readonly"
     except ZeroDivisionError:
@@ -64,3 +65,4 @@ for row in range(4):
                command=lambda row=row, col=col: btn_click(buttons[row][col])).grid(row=row + 2, column=col, sticky="nsew", padx=1, pady=1)
  
 root.mainloop()
+
