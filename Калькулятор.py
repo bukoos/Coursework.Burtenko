@@ -5,8 +5,14 @@ def btn_click(item):
     global expression
     try:
         input_field['state'] = "normal"
+        
+        # Очищення рядка, якщо попередній символ був "="
+        if expression and expression[-1] == '=':
+            bt_clear()
+        
         expression += item
-        input_field.insert(END, item)
+        input_field.delete(0, END)
+        input_field.insert(END, expression)
 
         if item == '=':
             result = str(eval(expression[:-1]))
@@ -16,10 +22,10 @@ def btn_click(item):
         input_field['state'] = "readonly"
     except ZeroDivisionError:
         input_field.delete(0, END)
-        input_field.insert(0, 'Похибка (ділення на 0)')
+        input_field.insert(0, 'Помилка (ділення на 0)')
     except SyntaxError:
         input_field.delete(0, END)
-        input_field.insert(0, 'Похибка')
+        input_field.insert(0, 'Помилка')
 
 
 def bt_clear():
