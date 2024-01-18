@@ -1,14 +1,13 @@
 from tkinter import *
 
-
 def btn_click(item):
     global expression
     try:
         input_field['state'] = "normal"
-        
+
         if expression and expression[-1] == '=':
             expression = expression[:-1]
-        
+
         expression += item
         input_field.delete(0, END)
         input_field.insert(END, expression)
@@ -20,13 +19,8 @@ def btn_click(item):
             expression = result + "="
 
         input_field['state'] = "readonly"
-    except ZeroDivisionError:
-        input_field.delete(0, END)
-        input_field.insert(0, 'Помилка (ділення на 0)')
-    except SyntaxError:
-        input_field.delete(0, END)
-        input_field.insert(0, 'Помилка')
-
+    except (ZeroDivisionError, SyntaxError):
+        handle_error('Помилка')
 
 def bt_clear():
     global expression
@@ -35,6 +29,9 @@ def bt_clear():
     input_field.delete(0, END)
     input_field['state'] = "readonly"
 
+def handle_error(error_msg):
+    input_field.delete(0, END)
+    input_field.insert(0, error_msg)
 
 root = Tk()
 root.geometry("268x288")
@@ -55,13 +52,12 @@ buttons = (('7', '8', '9', '/', '4'),
 
 expression = ""
 
-button = Button(root, text='C', command=lambda: bt_clear())
+button = Button(root, text='C', command=bt_clear)
 button.grid(row=1, column=3, sticky="nsew")
 
 for row in range(4):
     for col in range(4):
         Button(root, width=2, height=3, text=buttons[row][col],
-               command=lambda row=row, col=col: btn_click(buttons[row][col])).grid(row=row + 2, column=col, sticky="nsew", padx=1, pady=1)
- 
-root.mainloop()
+               command=lambda r=row, c=col: btn_click(buttons[r][c])).grid(row=row + 2, column=col, sticky="nsew", padx=1, pady=1)
 
+root.mainloop()
